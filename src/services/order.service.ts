@@ -15,21 +15,55 @@ export type OrderCreationInput = z.infer<typeof OrderCreationSchema>
 // Create a new order
 export const createNewOrder = async (orderData: OrderCreationInput, userEmail: string): Promise<OrderResponse> => {
   // Validate input
+  const validatedData = OrderCreationSchema.parse(orderData)
 
   // Get user's cart
+  const cart = await getUserCart(validatedData.userId)
+
+  if (!cart || cart.items.length === 0) {
+    throw new Error("Cart is empty")
+  }
 
   // Create order
+  const order = await createOrder(validatedData.userId, cart.items)
 
   // Update product stock
+  for (const item of cart.items) {
+    await updateStock(item.productId, item.quantity)
+  }
 
   // Clear cart
+  await emptyCart(validatedData.userId)
 
   // Publish order created event
   await publishEvent(
+    config.topics.orderCreated,
+    "OrderService",
+    {
+      orderId: order.id,
+      userId: order.userId,
+      totalAmount: order.totalAmount,
+    },
+    {
+      orderId: order.id,
+      status: "CREATED",
+      items: order.items.length,
+    },
   )
 
   // Publish invoice processing event
   await publishEvent(
+    config.topics.invoiceProcessing,
+    "OrderService",
+    {
+      orderId: order.id,
+      userId: order.userId,
+      userEmail,
+    },
+    {
+      orderId: order.id,
+      status: "INVOICE_REQUESTED",
+    },
   )
 
   return order

@@ -14,10 +14,20 @@ const processNotification = async (messagePayload: EachMessagePayload): Promise<
   }
 
   try {
+    const event = JSON.parse(messageValue)
+    console.log(`Processing notification event: ${event.eventId}`)
 
     // Extract email data
+    const { to, subject, content } = event.payload
 
     // Send email
+    await sendEmail({
+      to,
+      subject,
+      content,
+    })
+
+    console.log(`Notification sent to: ${to}`)
   } catch (error) {
     console.error("Error processing notification event:", error)
   }
@@ -26,6 +36,8 @@ const processNotification = async (messagePayload: EachMessagePayload): Promise<
 // Initialize notification consumer
 export const initNotificationConsumer = async (): Promise<Consumer> => {
   const consumer = await createConsumer("notification-group")
+
+  await subscribeToTopic(consumer, config.topics.notification, processNotification)
 
   return consumer
 }

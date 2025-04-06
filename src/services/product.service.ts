@@ -22,11 +22,24 @@ export type ProductCreationInput = z.infer<typeof ProductCreationSchema>
 // Create a new product
 export const createNewProduct = async (productData: ProductCreationInput): Promise<ProductResponse> => {
   // Validate product data
+  const validatedData = ProductCreationSchema.parse(productData)
 
   // Create product
+  const product = await createProduct(validatedData)
 
   // Publish product created event
   await publishEvent(
+    "product-created", // Not in the main topics list, but useful for tracking
+    "ProductService",
+    {
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+    },
+    {
+      productId: product.id,
+      status: "CREATED",
+    },
   )
 
   return product

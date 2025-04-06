@@ -9,7 +9,9 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "migrate": "ts-node src/scripts/run-migrations.ts",
     "seed": "ts-node src/scripts/seed.ts",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

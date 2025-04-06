@@ -1,0 +1,1 @@
+Ultimo commit a hacer: se termino la logica en services, se terminaron los consumers y se identificaron y establecieron bases para los tests mas importantes y se establecion jest.config.ts
