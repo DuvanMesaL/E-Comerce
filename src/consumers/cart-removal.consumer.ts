@@ -1,9 +1,21 @@
-import type { Consumer, EachMessagePayload } from "kafkajs"
+import type { Consumer } from "kafkajs"
+import type { EachMessagePayload } from "../lib/kafka"
 import { createConsumer, publishEvent, subscribeToTopic } from "../lib/kafka"
 import config from "../config"
 
-// Process cart removal events
-const processCartRemoval = async (messagePayload: EachMessagePayload): Promise<void> => {
+// Este es el tipo real del objeto que KafkaJS pasa a `eachMessage`
+type MessagePayload = {
+  topic: string
+  partition: number
+  message: {
+    key: Buffer | null
+    value: Buffer | null
+    headers?: Record<string, Buffer>
+    offset: string
+  }
+}
+
+const processCartRemoval = async (messagePayload: any): Promise<void> => {
   const { message } = messagePayload
   const messageValue = message.value?.toString()
 
@@ -16,10 +28,8 @@ const processCartRemoval = async (messagePayload: EachMessagePayload): Promise<v
     const event = JSON.parse(messageValue)
     console.log(`Processing cart removal event: ${event.eventId}`)
 
-    // Extract data
     const { userId, productId, userEmail, productName } = event.payload
 
-    // Create notification for cart abandonment
     const notificationPayload = {
       to: userEmail,
       subject: "¿Olvidaste algo en tu carrito?",
@@ -32,12 +42,16 @@ const processCartRemoval = async (messagePayload: EachMessagePayload): Promise<v
       `,
     }
 
-    // Publish notification event
-    await publishEvent(config.topics.notification, "CartRemovalService", notificationPayload, {
-      userId,
-      productId,
-      status: "CART_REMOVAL_NOTIFICATION_SENT",
-    })
+    await publishEvent(
+      config.topics.notification,
+      "CartRemovalService",
+      notificationPayload,
+      {
+        userId,
+        productId,
+        status: "CART_REMOVAL_NOTIFICATION_SENT",
+      }
+    )
 
     console.log(`Cart removal notification sent for user: ${userEmail}`)
   } catch (error) {
@@ -53,4 +67,3 @@ export const initCartRemovalConsumer = async (): Promise<Consumer> => {
 
   return consumer
 }
-

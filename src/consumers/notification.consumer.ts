@@ -1,11 +1,20 @@
-import type { Consumer, EachMessagePayload } from "kafkajs"
+import type { Consumer } from "kafkajs"
+import type { EachMessagePayload } from "../lib/kafka"
 import { createConsumer, subscribeToTopic } from "../lib/kafka"
 import config from "../config"
 import { sendEmail } from "../lib/email"
 
 // Process notification events
 const processNotification = async (messagePayload: EachMessagePayload): Promise<void> => {
-  const { message } = messagePayload
+  const { message } = messagePayload as {
+    message: {
+      key: Buffer | null
+      value: Buffer | null
+      headers?: Record<string, Buffer>
+      offset: string
+    }
+  }
+
   const messageValue = message.value?.toString()
 
   if (!messageValue) {
