@@ -1,6 +1,5 @@
 import { initMongoDB, closeMongoDB } from "../lib/event-store"
 import { createProduct } from "../models/product.model"
-import { createUser } from "../models/user.model"
 import { publishEvent } from "../lib/kafka"
 
 // Sample products data
@@ -40,41 +39,54 @@ const products = [
     category: "Accesorios",
     stock: 12,
   },
-]
-
-// Sample users data
-const users = [
   {
-    name: "Juan",
-    lastName: "Pérez",
-    email: "juan@example.com",
-    password: "SecurePass123",
-    phone: "+123456789",
+    name: "Mouse Gamer Razer",
+    description: "16000 DPI, RGB, Sensor Óptico",
+    price: 79.99,
+    category: "Accesorios",
+    stock: 18,
   },
   {
-    name: "María",
-    lastName: "González",
-    email: "maria@example.com",
-    password: "SecurePass456",
-    phone: "+987654321",
+    name: "Tablet Apple iPad Air",
+    description: "10.9'', 64GB, Wi-Fi, Chip M1",
+    price: 599.99,
+    category: "Tecnología",
+    stock: 7,
   },
+  {
+    name: "Impresora HP DeskJet",
+    description: "Multifuncional, Wi-Fi, Cartuchos incluidos",
+    price: 89.99,
+    category: "Oficina",
+    stock: 10,
+  },
+  {
+    name: "Silla ergonómica de oficina",
+    description: "Reclinable, Apoyo lumbar, Negro",
+    price: 189.99,
+    category: "Oficina",
+    stock: 6,
+  },
+  {
+    name: "Webcam Logitech C920",
+    description: "1080p Full HD, Micrófono Estéreo",
+    price: 99.99,
+    category: "Accesorios",
+    stock: 14,
+  }
 ]
 
 // Seed database
 const seedDatabase = async () => {
   try {
-    console.log("Starting database seeding...")
+    console.log("Starting product seeding...")
 
-    // Initialize MongoDB connection for event store
     await initMongoDB()
 
-    // Seed products
-    console.log("Seeding products...")
     for (const productData of products) {
       const product = await createProduct(productData)
-      console.log(`Created product: ${product.name}`)
+      console.log(`✔ Producto creado: ${product.name}`)
 
-      // Publish product created event
       await publishEvent(
         "product-created",
         "ProductSeeder",
@@ -86,27 +98,17 @@ const seedDatabase = async () => {
         {
           productId: product.id,
           status: "CREATED",
-        },
+        }
       )
     }
 
-    // Seed users
-    console.log("Seeding users...")
-    for (const userData of users) {
-      const user = await createUser(userData)
-      console.log(`Created user: ${user.email}`)
-    }
-
-    console.log("Database seeding completed successfully!")
+    console.log("✅ Productos insertados correctamente.")
   } catch (error) {
-    console.error("Error seeding database:", error)
+    console.error("❌ Error al insertar productos:", error)
   } finally {
-    // Close connections
     await closeMongoDB()
     process.exit(0)
   }
 }
 
-// Run seeder
 seedDatabase()
-

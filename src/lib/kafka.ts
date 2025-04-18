@@ -67,32 +67,38 @@ export const publishEvent = async <T>(
   return eventId
 }
 
-// ✅ Tipo exacto para el parámetro de `eachMessage`
-type EachMessagePayloadType = Parameters<
-  NonNullable<Parameters<Consumer["run"]>[0]>["eachMessage"]
->[0]
+// 👇 Tipado manual del payload
+export interface EachMessagePayload {
+  topic: string
+  partition: number
+  message: {
+    key: Buffer | null
+    value: Buffer | null
+    headers?: { [key: string]: string | Buffer | undefined }
+    timestamp: string
+    offset: string
+  }
+}
 
 export const subscribeToTopic = async (
   consumer: Consumer,
   topic: string,
-  handler: (message: EachMessagePayloadType) => Promise<void>,
+  handler: (message: EachMessagePayload) => Promise<void>,
 ): Promise<void> => {
   await consumer.subscribe({ topic, fromBeginning: true })
 
   await consumer.run({
-    eachMessage: async (messagePayload: EachMessagePayloadType) => {
+    eachMessage: async (messagePayload: any) => {
       try {
-        await handler(messagePayload)
+        await handler(messagePayload as EachMessagePayload)
       } catch (error) {
         console.error(`Error processing message from ${topic}:`, error)
       }
-    }
+    },
   })
 
   console.log(`Subscribed to topic: ${topic}`)
 }
-
-
 
 export const disconnectKafka = async (): Promise<void> => {
   if (producer) {
@@ -101,5 +107,3 @@ export const disconnectKafka = async (): Promise<void> => {
     console.log("Kafka producer disconnected")
   }
 }
-
-export type EachMessagePayload = EachMessagePayloadType

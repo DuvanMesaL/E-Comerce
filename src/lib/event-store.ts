@@ -15,14 +15,14 @@ type Event = {
 
 export const initMongoDB = async (): Promise<void> => {
   if (!client) {
-    const uri: string = config.mongodb.uri // 👈 forzamos el tipo
+    const uri: string = config.mongodb.uri
     client = new (MongoClient as any)(uri)
 
     await client!.connect()
     console.log("Connected to MongoDB")
 
     const db = client!.db()
-    eventsCollection = db.collection("events") // 👈 no usamos <Event>
+    eventsCollection = db.collection("events")
 
     await eventsCollection.createIndex({ timestamp: 1 })
     await eventsCollection.createIndex({ source: 1 })
