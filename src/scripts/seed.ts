@@ -2,90 +2,89 @@ import { initMongoDB, closeMongoDB } from "../lib/event-store"
 import { createProduct } from "../models/product.model"
 import { publishEvent } from "../lib/kafka"
 
-// Sample products data
 const products = [
   {
-    name: "Laptop HP",
-    description: "16GB RAM, SSD 512GB, Procesador Intel i7",
-    price: 899.99,
+    name: "Monitor LG UltraGear 27''",
+    description: "IPS, 144Hz, 1ms, QHD, HDR10",
+    price: 379.99,
     category: "Tecnología",
-    stock: 10,
+    stock: 6,
   },
   {
-    name: "Smartphone Samsung Galaxy S21",
-    description: "8GB RAM, 128GB Almacenamiento, Cámara 108MP",
-    price: 799.99,
-    category: "Tecnología",
-    stock: 15,
+    name: "Cámara Logitech C920 HD Pro",
+    description: "Full HD 1080p, micrófono estéreo",
+    price: 89.99,
+    category: "Accesorios",
+    stock: 14,
   },
   {
-    name: "Auriculares Sony WH-1000XM4",
-    description: "Cancelación de ruido, Bluetooth, 30h de batería",
-    price: 349.99,
+    name: "Router TP-Link Archer AX55",
+    description: "Wi-Fi 6, 3000 Mbps, 4 antenas",
+    price: 129.99,
+    category: "Tecnología",
+    stock: 9,
+  },
+  {
+    name: "Soporte de laptop ergonómico",
+    description: "Aluminio, ajustable, antideslizante",
+    price: 29.99,
     category: "Accesorios",
     stock: 20,
   },
   {
-    name: 'Monitor LG 27"',
-    description: "Monitor UltraHD 4K, 144Hz, 1ms respuesta",
-    price: 299.99,
-    category: "Tecnología",
-    stock: 8,
+    name: "Escritorio en L para oficina",
+    description: "Madera negra, soporte metálico",
+    price: 199.99,
+    category: "Oficina",
+    stock: 3,
   },
   {
-    name: "Teclado Mecánico Logitech",
-    description: "Switches Cherry MX, RGB, Layout Español",
-    price: 129.99,
-    category: "Accesorios",
-    stock: 12,
-  },
-  {
-    name: "Mouse Gamer Razer",
-    description: "16000 DPI, RGB, Sensor Óptico",
-    price: 79.99,
-    category: "Accesorios",
+    name: "Lámpara LED con brazo ajustable",
+    description: "Brillo regulable, puerto USB",
+    price: 49.99,
+    category: "Oficina",
     stock: 18,
   },
   {
-    name: "Tablet Apple iPad Air",
-    description: "10.9'', 64GB, Wi-Fi, Chip M1",
-    price: 599.99,
+    name: "Tablet gráfica Wacom Intuos S",
+    description: "Diseño digital, lápiz sin batería",
+    price: 79.99,
     category: "Tecnología",
-    stock: 7,
+    stock: 11,
   },
   {
-    name: "Impresora HP DeskJet",
-    description: "Multifuncional, Wi-Fi, Cartuchos incluidos",
-    price: 89.99,
-    category: "Oficina",
-    stock: 10,
-  },
-  {
-    name: "Silla ergonómica de oficina",
-    description: "Reclinable, Apoyo lumbar, Negro",
-    price: 189.99,
-    category: "Oficina",
-    stock: 6,
-  },
-  {
-    name: "Webcam Logitech C920",
-    description: "1080p Full HD, Micrófono Estéreo",
-    price: 99.99,
+    name: "Cargador múltiple USB-C",
+    description: "5 puertos, carga rápida PD 30W",
+    price: 39.99,
     category: "Accesorios",
-    stock: 14,
-  }
+    stock: 22,
+  },
+  {
+    name: "Archivador metálico de 3 cajones",
+    description: "Con cerradura, ruedas, negro",
+    price: 129.99,
+    category: "Oficina",
+    stock: 4,
+  },
+  {
+    name: "Auriculares Logitech H390",
+    description: "Con micrófono USB, cancelación de ruido",
+    price: 49.99,
+    category: "Accesorios",
+    stock: 16,
+  },
 ]
 
-// Seed database
+
 const seedDatabase = async () => {
   try {
-    console.log("Starting product seeding...")
+    console.log("🌱 Starting new product seeding...")
 
     await initMongoDB()
 
     for (const productData of products) {
       const product = await createProduct(productData)
-      console.log(`✔ Producto creado: ${product.name}`)
+      console.log(`✔ Created product: ${product.name}`)
 
       await publishEvent(
         "product-created",
@@ -102,9 +101,9 @@ const seedDatabase = async () => {
       )
     }
 
-    console.log("✅ Productos insertados correctamente.")
+    console.log("✅ Seeding completed successfully.")
   } catch (error) {
-    console.error("❌ Error al insertar productos:", error)
+    console.error("❌ Error during seeding:", error)
   } finally {
     await closeMongoDB()
     process.exit(0)

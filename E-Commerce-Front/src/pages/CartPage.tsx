@@ -6,17 +6,15 @@ import { CartContext } from "../context/CartContext"
 import { AuthContext } from "../context/AuthContext"
 
 const CartPage = () => {
-  const { cart, isLoading, removeFromCart, fetchCart } = useContext(CartContext)
+  const { cart, isLoading, removeFromCart } = useContext(CartContext)
   const { isAuthenticated } = useContext(AuthContext)
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchCart()
-    } else {
+    if (!isAuthenticated) {
       navigate("/login")
     }
-  }, [isAuthenticated, fetchCart, navigate])
+  }, [isAuthenticated, navigate])
 
   if (!isAuthenticated) {
     return null
