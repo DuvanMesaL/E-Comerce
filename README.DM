@@ -1,10 +1,5 @@
 # 🚀 E-Commerce Platform | Event-Driven Architecture
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
-![Architecture](https://img.shields.io/badge/architecture-Event--Driven-red?style=flat-square)
-![Node.js](https://img.shields.io/badge/Node.js-v16+-339933?style=flat-square&logo=node.js&logoColor=white)
-
 > A modern e-commerce platform built with an event-driven architecture using **Node.js**, **TypeScript**, **Kafka**, **MongoDB**, and **PostgreSQL**.
 
 ---
@@ -39,8 +34,6 @@ The system follows:
 - **CQRS** – separation between commands (write) and queries (read).
 - **Kafka** – asynchronous communication between microservices.
 
-![Architecture](docs/images/architecture.png)
-
 ---
 
 ## 🧩 Components
@@ -49,37 +42,36 @@ The system follows:
 
 - **User Service** – user registration, authentication, and profiles  
 - **Product Service** – catalog, pricing, and inventory  
-- **Cart Service** – add/remove products from cart  
+- **Cart Service** – shopping cart management  
 - **Order Service** – payment and order processing  
-- **Notification Service** – emails and updates  
+- **Notification Service** – email and user alerts
 
 ### 📦 Event Consumers
 
 - Welcome Flow  
 - Notification Dispatcher  
 - Abandoned Cart Handler  
-- Invoice Generator  
+- Invoice Generator
 
 ### 💻 Frontend
 
-- **React + Vite**  
-- **TailwindCSS**  
-- **React Router**  
-- **Context API**
+- Built using React with Vite  
+- TailwindCSS for UI  
+- React Router + Context API
 
 ---
 
 ## ⚙️ Installation
 
 ```bash
-# Clone repository
+# Clone the project
 git clone https://github.com/yourusername/e-commerce.git
 cd e-commerce
 
 # Install backend dependencies
 npm install
 
-# Create .env file with environment variables
+# Create the environment file
 echo "PORT=3000
 MONGODB_URI=mongodb://localhost:27017/ecommerce
 POSTGRES_HOST=localhost
@@ -111,9 +103,9 @@ npm run seed
 npm start
 ```
 
-### Manually
+### Without Docker
 
-Make sure MongoDB, PostgreSQL, and Kafka are running:
+Ensure MongoDB, PostgreSQL, and Kafka are running, then:
 
 ```bash
 npm run migrations
@@ -128,7 +120,7 @@ cd E-Commerce-Front
 npm run dev
 ```
 
-Access the app:
+Access the app at:
 
 - Backend → http://localhost:3000  
 - Frontend → http://localhost:5173
@@ -139,7 +131,7 @@ Access the app:
 
 ```bash
 npm test
-npm test -- --testPathPattern=product.service
+npm test -- --testPathPattern=user.service
 npm test -- --coverage
 ```
 
@@ -147,34 +139,15 @@ npm test -- --coverage
 
 ## 📘 API Documentation
 
-Swagger UI is available at:  
-📎 http://localhost:3000/api-docs
+Swagger UI is available at:
+
+http://localhost:3000/api-docs
 
 ---
 
 ## 📸 Screenshots
 
-### 🛍️ User Interface
-
-| Page              | Screenshot |
-|-------------------|------------|
-| Home              | ![Home](docs/images/home-page.png) |
-| Product Listing   | ![Product Listing](docs/images/product-listing.png) |
-| Product Detail    | ![Product Detail](docs/images/product-detail.png) |
-| Shopping Cart     | ![Shopping Cart](docs/images/shopping-cart.png) |
-| Checkout          | ![Checkout](docs/images/checkout.png) |
-| Confirmation      | ![Order Confirmation](docs/images/order-confirmation.png) |
-
-### 🛠️ Admin Dashboard
-
-| Page                | Screenshot |
-|---------------------|------------|
-| Product Management  | ![Admin Products](docs/images/admin-products.png) |
-| Order Management    | ![Admin Orders](docs/images/admin-orders.png) |
-
-### 🔁 Event Flow
-
-![Event Flow](docs/images/event-flow.png)
+Coming soon...
 
 ---
 
@@ -187,14 +160,14 @@ Swagger UI is available at:
 - Kafka  
 - MongoDB  
 - PostgreSQL  
-- Jest  
+- Jest
 
 ### Frontend
 - React  
 - Vite  
 - Tailwind CSS  
 - React Router  
-- Context API  
+- Context API
 
 ### DevOps
 - Docker  
@@ -206,19 +179,21 @@ Swagger UI is available at:
 ## 🤝 Contributing
 
 ```bash
-# Fork and clone the repository
-git checkout -b feature/awesome-feature
+# Fork the repository
+# Create a feature branch
+git checkout -b feature/amazing-feature
 
-# Make your changes and commit
-git commit -m "Add awesome feature"
+# Commit your changes
+git commit -m "Add amazing feature"
 
-# Push and open a pull request
-git push origin feature/awesome-feature
+# Push the changes
+git push origin feature/amazing-feature
+
+# Open a pull request 🎉
 ```
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.  
-See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. See the LICENSE file for more information.
