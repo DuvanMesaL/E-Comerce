@@ -1,43 +1,47 @@
 # 🚀 E-Commerce Platform | Event-Driven Architecture
 
-[![version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
-[![license](https://img.shields.io/badge/license-MIT-green.svg)]()
-[![architecture](https://img.shields.io/badge/architecture-Event--Driven-red.svg)]()
-[![Node.js](https://img.shields.io/badge/Node.js-16+-brightgreen.svg)]()
+<div align="center">
 
-> A modern e-commerce platform built with an event-driven architecture using **Node.js**, **TypeScript**, **Kafka**, **MongoDB**, and **PostgreSQL**.
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)
+![Architecture](https://img.shields.io/badge/architecture-Event--Driven-red.svg?style=flat-square)
+![Node.js](https://img.shields.io/badge/Node.js-v16+-339933?style=flat-square&logo=node.js&logoColor=white)
 
----
+</div>
 
-## 📑 Table of Contents
-
-- [📌 Overview](#-overview)
-- [🏗️ Architecture](#-architecture)
-- [🧩 Components](#-components)
-- [⚙️ Installation](#-installation)
-- [🚀 Running the Application](#-running-the-application)
-- [🧪 Testing](#-testing)
-- [📘 API Documentation](#-api-documentation)
-- [🖼️ Screenshots](#-screenshots)
-- [🛠️ Technologies Used](#-technologies-used)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+<p align="center">A modern e-commerce platform built with an event-driven architecture using Node.js, TypeScript, Kafka, MongoDB, and PostgreSQL.</p>
 
 ---
 
-## 📌 Overview
+## 📋 Table of Contents
 
-This platform leverages event-driven design principles to ensure scalability, traceability, and modularity. It supports full e-commerce flows including product management, shopping carts, orders, and notifications.
+- [Overview](#-overview)
+- [Architecture](#-architecture)
+- [Components](#-components)
+- [Installation](#-installation)
+- [Running the Application](#-running-the-application)
+- [Testing](#-testing)
+- [API Documentation](#-api-documentation)
+- [Screenshots](#-screenshots)
+- [Technologies Used](#-technologies-used)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 📝 Overview
+
+This platform supports complete e-commerce flows including product management, shopping carts, orders, notifications, and admin tools. It is built with scalability and modularity in mind using event-driven patterns.
 
 ---
 
 ## 🏗️ Architecture
 
-The application follows an **Event-Driven Architecture** pattern using:
+The system follows:
 
-- **Event Sourcing**: Each change in state is stored as an immutable event.
-- **CQRS**: Separate models for commands (writes) and queries (reads).
-- **Microservices** communicate asynchronously via **Kafka**.
+- **Event Sourcing** – all changes are stored as a sequence of events.
+- **CQRS** – separation between commands (write) and queries (read).
+- **Kafka** – asynchronous communication between microservices.
 
 ![Architecture](docs/images/architecture.png)
 
@@ -47,44 +51,52 @@ The application follows an **Event-Driven Architecture** pattern using:
 
 ### 🔙 Backend Services
 
-- **User Service** – Registration, authentication, profile.
-- **Product Service** – Product catalog, inventory, and prices.
-- **Cart Service** – Shopping cart operations.
-- **Order Service** – Order processing and payment.
-- **Notification Service** – Emails and alerts.
+- **User Service** – user registration, authentication, and profiles
+- **Product Service** – catalog, pricing, and inventory
+- **Cart Service** – add/remove products from cart
+- **Order Service** – payment and order processing
+- **Notification Service** – emails and updates
 
 ### 📦 Event Consumers
 
-- **Welcome Flow Consumer**
-- **Notification Consumer**
-- **Cart Removal Consumer**
-- **Invoice Processing Consumer**
+- Welcome Flow
+- Notification Dispatcher
+- Abandoned Cart Handler
+- Invoice Generator
 
 ### 💻 Frontend
 
-- Built with **React**, **TailwindCSS**, and **React Router**.
-- SPA architecture with responsive design.
+SPA with:
+
+- **React + Vite**
+- **TailwindCSS**
+- **React Router**
+- **Context API**
 
 ---
 
-## ⚙️ Installation
+## 🛠️ Installation
 
-### 🔧 Requirements
-
-- Node.js (v16+)
-- Docker & Docker Compose
-- PostgreSQL & MongoDB (or Docker)
-- Kafka (or Docker)
-
-### 🧭 Setup
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/yourusername/e-commerce.git
 cd e-commerce
+```
+
+### 2. Install backend dependencies
+
+```bash
 npm install
 ```
 
-Create a `.env` file:
+### 3. Create environment variables
+
+```bash
+cp .env.example .env
+```
+
+Fill `.env` with:
 
 ```env
 PORT=3000
@@ -101,11 +113,18 @@ EMAIL_USER=your_email_user
 EMAIL_PASS=your_email_password
 ```
 
+### 4. Install frontend
+
+```bash
+cd E-Commerce-Front
+npm install
+```
+
 ---
 
 ## 🚀 Running the Application
 
-### 🐳 With Docker
+### Start services with Docker
 
 ```bash
 docker-compose up -d
@@ -114,10 +133,9 @@ npm run seed
 npm start
 ```
 
-### ⚒️ Manually
+### Run manually
 
-1. Start PostgreSQL, MongoDB, Kafka manually
-2. Run:
+Ensure MongoDB, PostgreSQL, and Kafka are running:
 
 ```bash
 npm run migrations
@@ -125,54 +143,55 @@ npm run seed
 npm start
 ```
 
-3. Launch frontend:
+Then in a new terminal:
 
 ```bash
 cd E-Commerce-Front
-npm install
 npm run dev
 ```
 
-- Backend: http://localhost:3000  
-- Frontend: http://localhost:5173
+Visit:
+
+- Backend → http://localhost:3000
+- Frontend → http://localhost:5173
 
 ---
 
 ## 🧪 Testing
 
 ```bash
-npm test                            # All tests
-npm test -- --testPathPattern=...  # Specific tests
-npm test -- --coverage             # With coverage
+npm test
+npm test -- --testPathPattern=product.service
+npm test -- --coverage
 ```
 
 ---
 
 ## 📘 API Documentation
 
-Swagger UI available at:
+Swagger UI is available at:
 
 **http://localhost:3000/api-docs**
 
 ---
 
-## 🖼️ Screenshots
+## 📸 Screenshots
 
 ### 🛍️ User Interface
 
 | Page | Preview |
 |------|---------|
 | Home | ![Home](docs/images/home-page.png) |
-| Product List | ![Product Listing](docs/images/product-listing.png) |
+| Product Listing | ![Product Listing](docs/images/product-listing.png) |
 | Product Detail | ![Product Detail](docs/images/product-detail.png) |
-| Cart | ![Shopping Cart](docs/images/shopping-cart.png) |
+| Shopping Cart | ![Shopping Cart](docs/images/shopping-cart.png) |
 | Checkout | ![Checkout](docs/images/checkout.png) |
-| Confirmation | ![Order Confirmation](docs/images/order-confirmation.png) |
+| Order Confirmation | ![Order Confirmation](docs/images/order-confirmation.png) |
 
 ### 🔧 Admin Dashboard
 
-| Feature | Preview |
-|--------|---------|
+| Page | Preview |
+|------|---------|
 | Product Management | ![Admin Products](docs/images/admin-products.png) |
 | Order Management | ![Admin Orders](docs/images/admin-orders.png) |
 
@@ -185,33 +204,29 @@ Swagger UI available at:
 ## 🛠️ Technologies Used
 
 ### Backend
-- Node.js • TypeScript • Express
-- Kafka • MongoDB • PostgreSQL
-- Jest
+- Node.js, TypeScript, Express
+- Kafka, MongoDB, PostgreSQL
+- Jest for testing
 
 ### Frontend
-- React • TypeScript • Tailwind CSS
-- Context API • React Router
+- React, TypeScript
+- Tailwind CSS, React Router, Context API
 
 ### DevOps
-- Docker • Docker Compose • GitHub Actions
+- Docker, Docker Compose, GitHub Actions
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome!
-
-```bash
-# 1. Fork this repository
-# 2. Create your feature branch: git checkout -b feature/new-feature
-# 3. Commit your changes: git commit -m 'Add new feature'
-# 4. Push to the branch: git push origin feature/new-feature
-# 5. Open a Pull Request
-```
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/awesome-feature`
+3. Commit your changes: `git commit -m "Add awesome feature"`
+4. Push to the branch: `git push origin feature/awesome-feature`
+5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file.
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file.
