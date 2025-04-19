@@ -1,263 +1,199 @@
-# 🚀 Transaction Application | Banking Microservices
+# 🚀 E-Commerce Platform | Event-Driven Architecture
 
-<div align="center">
-
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)
-![Microservices](https://img.shields.io/badge/architecture-microservices-orange.svg?style=flat-square)
-![Node.js](https://img.shields.io/badge/Node.js-v16+-339933?style=flat-square&logo=node.js&logoColor=white)
-
-</div>
-
-<p align="center">A modern microservices-based banking application for managing transactions, accounts, and user profiles securely.</p>
+> A modern e-commerce platform built with an event-driven architecture using **Node.js**, **TypeScript**, **Kafka**, **MongoDB**, and **PostgreSQL**.
 
 ---
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
-- [Architecture](#-architecture)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Running the Application](#-running-the-application)
-- [Key Features](#-key-features)
-- [Screenshots](#-screenshots)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [📌 Overview](#-overview)
+- [🏗️ Architecture](#-architecture)
+- [🧩 Components](#-components)
+- [⚙️ Installation](#-installation)
+- [🚀 Running the Application](#-running-the-application)
+- [🧪 Testing](#-testing)
+- [📘 API Documentation](#-api-documentation)
+- [📸 Screenshots](#-screenshots)
+- [🛠️ Technologies Used](#-technologies-used)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
-## 📝 Overview
+## 📌 Overview
 
-This project is a comprehensive banking transaction application built on a microservices architecture. It allows users to manage accounts, perform transactions, and monitor their financial activities through a sleek, modern interface.
+This platform supports complete e-commerce flows including product management, shopping carts, orders, notifications, and admin tools. It is built with scalability and modularity in mind using event-driven patterns.
 
 ---
 
 ## 🏗️ Architecture
 
-The application consists of the following microservices:
+The system follows:
 
-- **User Service** - Manages user registration, authentication, and profile data
-- **Account Service** - Handles account creation, balance management, and transactions
-- **Logs Service** - Records all system activities for audit and debugging
-- **Mailing Service** - Manages email notifications for important account activities
-
-Each microservice is designed to operate independently, with its own database and business logic.
+- **Event Sourcing** – all changes are stored as a sequence of events.
+- **CQRS** – separation between commands (write) and queries (read).
+- **Kafka** – asynchronous communication between microservices.
 
 ---
 
-## 📌 Prerequisites
+## 🧩 Components
 
-Before running the application, ensure you have the following requirements installed:
+### 🔙 Backend Services
 
-| Requirement | Version | Purpose |
-|-------------|---------|---------|
-| MongoDB | 4.4+ | NoSQL database for user data and logs |
-| PostgreSQL | 12+ | Relational database for transaction records |
-| Node.js | 16+ | JavaScript runtime environment |
-| npm | 7+ | Node.js package manager |
-| Git | Any | Version control system |
+- **User Service** – user registration, authentication, and profiles  
+- **Product Service** – catalog, pricing, and inventory  
+- **Cart Service** – shopping cart management  
+- **Order Service** – payment and order processing  
+- **Notification Service** – email and user alerts
+
+### 📦 Event Consumers
+
+- Welcome Flow  
+- Notification Dispatcher  
+- Abandoned Cart Handler  
+- Invoice Generator
+
+### 💻 Frontend
+
+- Built using React with Vite  
+- TailwindCSS for UI  
+- React Router + Context API
 
 ---
 
-## 🛠️ Installation
-
-### 1. Clone the repository
+## ⚙️ Installation
 
 ```bash
-git clone https://github.com/DuvanMesaL/7th_semester_partial_exam_term_1_transaction_application.git
-cd 7th_semester_partial_exam_term_1_transaction_application
-```
+# Clone the project
+git clone https://github.com/yourusername/e-commerce.git
+cd e-commerce
 
-### 2. Install microservices dependencies
-
-```bash
-# Account Microservice
-cd Back/microservice-account
+# Install backend dependencies
 npm install
 
-# User Microservice
-cd ../microservice-user
-npm install
+# Create the environment file
+echo "PORT=3000
+MONGODB_URI=mongodb://localhost:27017/ecommerce
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=ecommerce
+KAFKA_BROKERS=localhost:9092
+EMAIL_HOST=smtp.ethereal.email
+EMAIL_PORT=587
+EMAIL_USER=your_email_user
+EMAIL_PASS=your_email_password" > .env
 
-# Logs Microservice
-cd ../microservice-logs
-npm install
-
-# Mailing Microservice
-cd ../microservice-mailing
-npm install
-```
-
-### 3. Install frontend dependencies
-
-```bash
-cd ../../monigo
+# Install frontend
+cd E-Commerce-Front
 npm install
 ```
-
-### 4. Configure environment variables
-
-Copy the example environment files in each microservice folder:
-
-```bash
-cp Back/microservice-account/.env.example Back/microservice-account/.env
-cp Back/microservice-user/.env.example Back/microservice-user/.env
-cp Back/microservice-logs/.env.example Back/microservice-logs/.env
-cp Back/microservice-mailing/.env.example Back/microservice-mailing/.env
-```
-
-Edit each `.env` file with your specific configuration settings.
 
 ---
 
 ## 🚀 Running the Application
 
-### Start the databases
-
-Ensure MongoDB and PostgreSQL services are running:
+### With Docker
 
 ```bash
-# Check MongoDB status
-mongod --version
-
-# Check PostgreSQL status
-pg_isready
+docker-compose up -d
+npm run migrations
+npm run seed
+npm start
 ```
 
-### Launch the microservices
+### Without Docker
 
-In separate terminal windows:
+Ensure MongoDB, PostgreSQL, and Kafka are running, then:
 
 ```bash
-# Start Account Microservice
-cd Back/microservice-account
-npm run dev
+npm run migrations
+npm run seed
+npm start
+```
 
-# Start User Microservice
-cd ../microservice-user
-npm run dev
+In another terminal:
 
-# Start Logs Microservice
-cd ../microservice-logs
-npm run dev
-
-# Start Mailing Microservice
-cd ../microservice-mailing
+```bash
+cd E-Commerce-Front
 npm run dev
 ```
 
-### Start the frontend
+Access the app at:
 
-```bash
-cd monigo
-npm run dev
-```
-
-After starting all services, navigate to `http://localhost:3000` in your browser.
+- Backend → http://localhost:3000  
+- Frontend → http://localhost:5173
 
 ---
 
-## ✨ Key Features
+## 🧪 Testing
 
-- 🔐 **Secure Authentication** - Multi-factor authentication for account protection
-- 💰 **Transaction Management** - Send, receive, and track all financial transactions
-- 📊 **Financial Dashboard** - Visual representation of account activities and balances
-- 🔔 **Real-time Notifications** - Instant alerts for account activities
-- 👤 **User Profile Management** - Easy updating of personal information
-- 🛡️ **Security Settings** - Customizable security preferences
+```bash
+npm test
+npm test -- --testPathPattern=user.service
+npm test -- --coverage
+```
+
+---
+
+## 📘 API Documentation
+
+Swagger UI is available at:
+
+http://localhost:3000/api-docs
 
 ---
 
 ## 📸 Screenshots
 
-### ENJOY THE APP
-
-#### Login
-![login](https://github.com/user-attachments/assets/b18b2a87-c011-4238-8f8b-8491088bef5f)
-![Login](https://github.com/user-attachments/assets/f39f0b34-5278-4d89-835e-e439c86e2c26)
-
-#### Register
-![register](https://github.com/user-attachments/assets/ffbf3a0a-9d1f-4728-bbea-65d57266c1b6)
-![Register](https://github.com/user-attachments/assets/50f5acc6-3603-489d-b5e4-f3e22d3652ab)
-
-#### Dashboard
-![Dashboard](https://github.com/user-attachments/assets/ba6132a6-c98b-4926-b890-8f2f3884ed91)
-![DashBoard-1](https://github.com/user-attachments/assets/f1bd181c-ac7f-4c95-8d8f-c9c654fe2226)
-![DashBoard-2](https://github.com/user-attachments/assets/de796d41-11df-45c4-8c24-d466edc55af4)
-
-#### Account
-![Account](https://github.com/user-attachments/assets/6f409a46-6229-469a-a4d7-a4868e3727a0)
-![Account](https://github.com/user-attachments/assets/62ce8cf0-1839-4ae7-a283-d11bbeb4cb3d)
-
-#### Transaction
-![Transaction](https://github.com/user-attachments/assets/f29028b5-99f0-4803-80a6-7d00ae767ed0)
-![Transaction](https://github.com/user-attachments/assets/5a3f91f5-e4cb-4e52-881c-1d835c8c09c8)
-
-#### Transfer
-![Transfer](https://github.com/user-attachments/assets/bce12fc9-b8ea-47ea-9945-b161bfcb7964)
-![Transfer](https://github.com/user-attachments/assets/de2ce68b-0115-45e4-9899-65bf7a91de50)
+Coming soon...
 
 ---
 
+## 🛠️ Technologies Used
 
-## ⚠️ Troubleshooting
+### Backend
+- Node.js  
+- TypeScript  
+- Express  
+- Kafka  
+- MongoDB  
+- PostgreSQL  
+- Jest
 
-### Common Issues
+### Frontend
+- React  
+- Vite  
+- Tailwind CSS  
+- React Router  
+- Context API
 
-1. **Database Connection Errors**
-   - Ensure MongoDB and PostgreSQL are running
-   - Verify connection strings in each microservice's `.env` file
-
-2. **Dependency Issues**
-
-```bash
-npm cache clean --force
-npm install
-```
-
-3. **Port Conflicts**
-   - Check if specified ports are already in use
-   - Update ports in the configuration files if needed
-
-4. **Microservices Communication**
-   - Ensure all microservices are running
-   - Check network configuration if services are on different machines
+### DevOps
+- Docker  
+- Docker Compose  
+- GitHub Actions
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions to improve this project! Here's how you can help:
-
-1. **Fork** the repository
-2. **Create a branch** for your feature:
-
 ```bash
+# Fork the repository
+# Create a feature branch
 git checkout -b feature/amazing-feature
-```
 
-3. **Commit your changes**:
+# Commit your changes
+git commit -m "Add amazing feature"
 
-```bash
-git commit -m "Add: Implement amazing feature"
-```
-
-4. **Push to your branch**:
-
-```bash
+# Push the changes
 git push origin feature/amazing-feature
+
+# Open a pull request 🎉
 ```
-
-5. **Open a Pull Request**
-
-Please make sure to update tests as appropriate and follow our code of conduct.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
+This project is licensed under the MIT License. See the LICENSE file for more information.
