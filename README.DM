@@ -1,87 +1,84 @@
-# E-Commerce Platform with Event-Driven Architecture
 
-![E-Commerce Platform](docs/images/banner.png)
+# 🛍️ E-Commerce Platform with Event-Driven Architecture
 
-A modern e-commerce platform built with an event-driven architecture using Node.js, TypeScript, Kafka, MongoDB for event sourcing, and PostgreSQL for data storage.
+![Banner](docs/images/banner.png)
 
-## Table of Contents
+Una plataforma moderna de comercio electrónico construida con una **arquitectura orientada a eventos**, utilizando **Node.js**, **TypeScript**, **Kafka**, **MongoDB** y **PostgreSQL**.
 
-- [System Architecture](#system-architecture)
-- [Components](#components)
-- [Installation](#installation)
-- [Running the Application](#running-the-application)
-- [Testing](#testing)
-- [API Documentation](#api-documentation)
-- [Screenshots](#screenshots)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+---
 
-## System Architecture
+## 📚 Tabla de Contenidos
 
-This application follows an event-driven architecture pattern with:
+- [📐 Arquitectura del Sistema](#-arquitectura-del-sistema)
+- [🧩 Componentes](#-componentes)
+- [⚙️ Instalación](#-instalación)
+- [🚀 Ejecución de la Aplicación](#-ejecución-de-la-aplicación)
+- [🧪 Pruebas](#-pruebas)
+- [📖 Documentación de la API](#-documentación-de-la-api)
+- [🖼️ Capturas de Pantalla](#-capturas-de-pantalla)
+- [🛠️ Tecnologías Usadas](#-tecnologías-usadas)
+- [🤝 Contribuciones](#-contribuciones)
+- [📄 Licencia](#-licencia)
 
-- **Event Sourcing**: All state changes are captured as a sequence of events
-- **CQRS (Command Query Responsibility Segregation)**: Separate models for reading and writing data
-- **Microservices Communication**: Services communicate through events via Kafka
+---
 
-![Architecture Diagram](docs/images/architecture.png)
+## 📐 Arquitectura del Sistema
 
-## Components
+El sistema adopta un enfoque **event-driven** que incluye:
 
-The application consists of the following main components:
+- **Event Sourcing**: Cada cambio de estado se representa como un evento inmutable.
+- **CQRS**: Modelos separados para lectura y escritura.
+- **Microservicios** comunicándose mediante eventos en **Kafka**.
 
-### Backend Services
+![Arquitectura](docs/images/architecture.png)
 
-- **User Service**: Handles user registration, authentication, and profile management
-- **Product Service**: Manages product catalog, inventory, and pricing
-- **Cart Service**: Manages shopping cart operations
-- **Order Service**: Processes orders and payment
-- **Notification Service**: Sends emails and notifications to users
+---
 
-### Event Consumers
+## 🧩 Componentes
 
-- **Welcome Flow Consumer**: Processes user registration events and triggers welcome emails
-- **Notification Consumer**: Processes notification events and sends emails
-- **Cart Removal Consumer**: Processes cart removal events and sends abandonment emails
-- **Invoice Processing Consumer**: Processes order events and generates invoices
+### 🧠 Backend
 
-### Frontend
+- **User Service**: Registro, autenticación y gestión de usuarios.
+- **Product Service**: Gestión de productos, inventario y precios.
+- **Cart Service**: Operaciones de carrito de compras.
+- **Order Service**: Procesamiento de órdenes y pagos.
+- **Notification Service**: Notificaciones y correos.
 
-- React-based SPA with responsive design
-- State management with Context API
-- Routing with React Router
+### 📬 Consumers de Eventos
 
-## Installation
+- **Welcome Flow Consumer**
+- **Notification Consumer**
+- **Cart Removal Consumer**
+- **Invoice Processing Consumer**
 
-### Prerequisites
+### 🖥️ Frontend
 
-- Node.js (v14 or higher)
-- Docker and Docker Compose
-- PostgreSQL (if running without Docker)
-- MongoDB (if running without Docker)
-- Kafka (if running without Docker)
+- Aplicación SPA con React y diseño responsive.
+- Gestión de estado con Context API.
+- Navegación con React Router.
 
-### Setup
+---
 
-1. Clone the repository:
+## ⚙️ Instalación
 
-\`\`\`bash
+### 🔧 Requisitos
+
+- Node.js (v14+)
+- Docker + Docker Compose
+- PostgreSQL & MongoDB (si no usas Docker)
+- Kafka (si no usas Docker)
+
+### 🧭 Pasos
+
+```bash
 git clone https://github.com/yourusername/e-commerce.git
 cd e-commerce
-\`\`\`
-
-2. Install dependencies:
-
-\`\`\`bash
 npm install
-\`\`\`
+```
 
-3. Set up environment variables:
+Crea un archivo `.env` con:
 
-Create a `.env` file in the root directory with the following variables:
-
-\`\`\`
+```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/ecommerce
 POSTGRES_HOST=localhost
@@ -94,221 +91,121 @@ EMAIL_HOST=smtp.ethereal.email
 EMAIL_PORT=587
 EMAIL_USER=your_email_user
 EMAIL_PASS=your_email_password
-\`\`\`
+```
 
-## Running the Application
+---
 
-### Using Docker
+## 🚀 Ejecución de la Aplicación
 
-The easiest way to run the application is using Docker Compose:
+### 🐳 Con Docker
 
-\`\`\`bash
-# Start all services
+```bash
 docker-compose up -d
-
-# Run database migrations
 npm run migrations
-
-# Seed the database with initial data
 npm run seed
-
-# Start the application
 npm start
-\`\`\`
+```
 
-### Without Docker
+### 💻 Manualmente
 
-If you prefer to run the services individually:
+1. Levanta PostgreSQL, MongoDB y Kafka
+2. Ejecuta migraciones:
 
-1. Start PostgreSQL, MongoDB, and Kafka separately
-2. Run database migrations:
-
-\`\`\`bash
+```bash
 npm run migrations
-\`\`\`
-
-3. Seed the database:
-
-\`\`\`bash
 npm run seed
-\`\`\`
-
-4. Start the backend server:
-
-\`\`\`bash
 npm start
-\`\`\`
+```
 
-5. Start the frontend development server:
+3. Inicia el frontend:
 
-\`\`\`bash
+```bash
 cd E-Commerce-Front
 npm install
 npm run dev
-\`\`\`
+```
 
-The backend API will be available at http://localhost:3000, and the frontend at http://localhost:5173.
+- Backend: http://localhost:3000  
+- Frontend: http://localhost:5173
 
-## Testing
+---
 
-The application includes comprehensive tests:
+## 🧪 Pruebas
 
-\`\`\`bash
-# Run all tests
-npm test
-
-# Run specific test suites
+```bash
+npm test                       # Todas las pruebas
 npm test -- --testPathPattern=user.service
-npm test -- --testPathPattern=product.service
+npm test -- --coverage         # Con cobertura
+```
 
-# Run tests with coverage
-npm test -- --coverage
-\`\`\`
+---
 
-## API Documentation
+## 📖 Documentación de la API
 
-API documentation is available using Swagger UI at http://localhost:3000/api-docs when the application is running.
+Disponible en Swagger UI:  
+👉 [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
-## Screenshots
+---
 
-### User Interface
+## 🖼️ Capturas de Pantalla
 
-#### Home Page
-![Home Page](docs/images/home-page.png)
-*The main landing page showing featured products and categories*
+### 👥 Interfaz de Usuario
 
-#### Product Listing
-![Product Listing](docs/images/product-listing.png)
-*Product catalog with filtering and sorting options*
+| Página | Imagen |
+|-------|--------|
+| Home | ![Home](docs/images/home-page.png) |
+| Catálogo de Productos | ![Product Listing](docs/images/product-listing.png) |
+| Detalle del Producto | ![Product Detail](docs/images/product-detail.png) |
+| Carrito de Compras | ![Shopping Cart](docs/images/shopping-cart.png) |
+| Checkout | ![Checkout](docs/images/checkout.png) |
+| Confirmación de Orden | ![Order Confirmation](docs/images/order-confirmation.png) |
 
-#### Product Detail
-![Product Detail](docs/images/product-detail.png)
-*Detailed product view with add to cart functionality*
+### 🛠️ Dashboard Administrativo
 
-#### Shopping Cart
-![Shopping Cart](docs/images/shopping-cart.png)
-*Shopping cart with product list and checkout option*
+| Página | Imagen |
+|--------|--------|
+| Gestión de Productos | ![Admin Products](docs/images/admin-products.png) |
+| Gestión de Órdenes | ![Admin Orders](docs/images/admin-orders.png) |
 
-#### Checkout Process
-![Checkout](docs/images/checkout.png)
-*Checkout page with shipping and payment information*
-
-#### Order Confirmation
-![Order Confirmation](docs/images/order-confirmation.png)
-*Order confirmation with order details and tracking information*
-
-### Admin Dashboard
-
-#### Product Management
-![Product Management](docs/images/admin-products.png)
-*Admin interface for managing products*
-
-#### Order Management
-![Order Management](docs/images/admin-orders.png)
-*Admin interface for managing orders*
-
-### Event Flow Visualization
+### 🔄 Visualización del Flujo de Eventos
 
 ![Event Flow](docs/images/event-flow.png)
-*Visualization of the event flow between services*
 
-## Technologies Used
+---
+
+## 🛠️ Tecnologías Usadas
 
 ### Backend
-- Node.js
-- TypeScript
-- Express.js
-- Kafka (for event streaming)
-- MongoDB (for event sourcing)
-- PostgreSQL (for data storage)
-- Jest (for testing)
+- Node.js • TypeScript • Express
+- Kafka • MongoDB • PostgreSQL
+- Jest
 
 ### Frontend
-- React
-- TypeScript
-- Tailwind CSS
-- React Router
-- Context API
+- React • TypeScript • Tailwind CSS
+- React Router • Context API
 
 ### DevOps
-- Docker
-- Docker Compose
-- GitHub Actions (CI/CD)
+- Docker • Docker Compose • GitHub Actions
 
-## Contributing
+---
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 🤝 Contribuciones
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+¡Contribuciones son bienvenidas!
 
-## License
+```bash
+# 1. Haz un fork
+# 2. Crea una rama: git checkout -b feature/nueva-feature
+# 3. Realiza tus cambios: git commit -m 'Agrega nueva funcionalidad'
+# 4. Push: git push origin feature/nueva-feature
+# 5. Abre un Pull Request
+```
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-\`\`\`
+---
 
-```plaintext file="docs/images/README.md"
-# Images Directory
+## 📄 Licencia
 
-This directory contains screenshots and diagrams for the E-Commerce application.
+Distribuido bajo la **Licencia MIT**.  
+Consulta el archivo [LICENSE](LICENSE) para más información.
 
-## Organization
-
-- `architecture.png` - System architecture diagram
-- `banner.png` - Main banner image for README
-- `event-flow.png` - Event flow visualization
-- `home-page.png` - Screenshot of the home page
-- `product-listing.png` - Screenshot of the product listing page
-- `product-detail.png` - Screenshot of the product detail page
-- `shopping-cart.png` - Screenshot of the shopping cart
-- `checkout.png` - Screenshot of the checkout process
-- `order-confirmation.png` - Screenshot of the order confirmation
-- `admin-products.png` - Screenshot of the admin product management
-- `admin-orders.png` - Screenshot of the admin order management
-
-## Adding New Images
-
-When adding new screenshots or diagrams:
-
-1. Use descriptive filenames
-2. Optimize images for web (compress if needed)
-3. Update the README.md to reference new images
-4. Add a description in this file
-
-## Image Standards
-
-- Screenshots should be taken at 1920x1080 resolution
-- Use PNG format for screenshots and diagrams
-- Maximum file size: 500KB per image
-\`\`\`
-
-```mermaid file="docs/images/architecture.png" type="diagram"
-graph TD;
-    A["Frontend SPA"] --> B["API Gateway"]
-    B --> C["User Service"]
-    B --> D["Product Service"]
-    B --> E["Cart Service"]
-    B --> F["Order Service"]
-    
-    C --> G["Kafka"]
-    D --> G
-    E --> G
-    F --> G
-    
-    G --> H["Welcome Flow Consumer"]
-    G --> I["Notification Consumer"]
-    G --> J["Cart Removal Consumer"]
-    G --> K["Invoice Processing Consumer"]
-    
-    H --> L["MongoDB<br>Event Store"]
-    I --> L
-    J --> L
-    K --> L
-    
-    C --> M["PostgreSQL<br>Data Store"]
-    D --> M
-    E --> M
-    F --> M
+---
