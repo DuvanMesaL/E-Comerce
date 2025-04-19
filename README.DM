@@ -1,4 +1,3 @@
-
 # 🛍️ E-Commerce Platform with Event-Driven Architecture
 
 ![Banner](docs/images/banner.png)
@@ -207,5 +206,3 @@ Disponible en Swagger UI:
 
 Distribuido bajo la **Licencia MIT**.  
 Consulta el archivo [LICENSE](LICENSE) para más información.
-
----
